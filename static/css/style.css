@@ -15,17 +15,6 @@ article {
 }
 
 #post-public-button {
-    font-family: Ubuntu;
-    font-weight: 600;
-    font-style: normal;
-    font-size: 17px;
-    color: #000;
-    text-decoration: none;
-    border: 2px solid #333;
-    border-radius: 16px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    background-color: #fff;
     cursor: pointer;
     z-index: 900;    
     position: relative;
