@@ -1,60 +1,55 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Toss</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-    <link href="/static/css/style.css" rel="stylesheet">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Toss</title>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+				integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+		<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+		<link href="/static/css/style.css" rel="stylesheet">
 
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-
 <body>
-
 	<div id="navbar-toss">
 		<nav class="navbar navbar-inverse">
-				<div class="container-fluid">
-					<div class="navbar-header">
+			<div class="container-fluid">
+				<div class="navbar-header">
 					<a class="navbar-brand" href="#">Toss</a>
-					</div>
+				</div>
 					<ul class="nav navbar-nav">
 					<li class="active"><a href="#">Home</a></li>
 					<li><a href="#">
-						<button type="button" class="btn btn-success">
-							Show some message!
-						</button>
+						<button type="button" class="btn btn-success" id="smsg" style="display: none"></button>
 					</a></li>
 					</ul>
 				</div>
-				</nav>
+		</nav>
 	</div>
 
-    <div id="post-info-section">
-        <div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them"
-            id="heart-parent" v-on:click="toogle_heart">
-            <div v-bind:class="class_name"></div>
-        </div>
-        <button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="btn btn-primary">PUBLISH</button>
-        <div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
-    </div>
-    <article>
-        <div class="standalone-container">
-            <textarea id="editor"></textarea>
-        </div>
-    </article>
-    <script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-    <script src="/static/js/main.js"></script>
+	<div id="post-info-section">
+			<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
+				<div v-bind:class="class_name"></div>
+			</div>
+		<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
+	</div>
+	<div class="container">
+		<div class="content">
+			<div id="edit-section">
+				<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
+				<textarea id="editor"></textarea>
+			</div>
+		</div>
+		<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+	<script src="/static/js/main.js"></script>
 </body>
-
 </html>

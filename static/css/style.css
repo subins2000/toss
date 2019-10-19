@@ -8,17 +8,10 @@ body {
     cursor: pointer;
 }
 
-article {
+.content {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
-}
-
-#post-public-button {
-    cursor: pointer;
-    z-index: 900;    
-    position: relative;
-    float: right;
 }
 
 #heart-parent {
@@ -31,11 +24,6 @@ article {
     position: relative;
 }
 
-.standalone-container {
-    margin-left: 50px;
-    max-width: 900px;
-}
-
 #post-info-section {
     max-width: 900px;
     margin-left: auto;
@@ -46,3 +34,25 @@ article {
 a {
     color: #333;
 }
+
+#smsg {
+    display: none;
+}
+
+.block {
+	display: block;
+	width: 100%;
+	border: #333 solid;
+	background-color: white;
+	color: #333;
+	padding: 14px 28px;
+	font-size: 16px;
+	cursor: pointer;
+	text-align: center;
+	border-radius: 25px;
+  }
+
+  .block:hover {
+	background-color: black;
+	color: white;
+  }
