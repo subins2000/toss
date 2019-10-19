@@ -8,24 +8,13 @@ body {
     cursor: pointer;
 }
 
-article {
+.content {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
 }
 
 #post-public-button {
-    font-family: Ubuntu;
-    font-weight: 600;
-    font-style: normal;
-    font-size: 17px;
-    color: #000;
-    text-decoration: none;
-    border: 2px solid #333;
-    border-radius: 16px;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    background-color: #fff;
     cursor: pointer;
     z-index: 900;    
     position: relative;
@@ -42,11 +31,6 @@ article {
     position: relative;
 }
 
-.standalone-container {
-    margin-left: 50px;
-    max-width: 900px;
-}
-
 #post-info-section {
     max-width: 900px;
     margin-left: auto;
@@ -56,4 +40,8 @@ article {
 
 a {
     color: #333;
+}
+
+#smsg {
+    display: none;
 }
