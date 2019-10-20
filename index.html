@@ -4,9 +4,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Toss</title>
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-				integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 		<link href="/static/css/style.css" rel="stylesheet">
 
@@ -16,43 +13,65 @@
 <body>
 	<div id="app">
 		<div id="navbar-toss">
-			<nav class="navbar navbar-inverse navbar-fixed-top">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<a class="navbar-brand" href="#">Toss</a>
-					</div>
-					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Popular</a></li>
-						<li><a href="#">About Us</a></li>
-						<li></li>
+			<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+				<!-- Brand -->
+				<a class="navbar-brand" href="/">Toss</a>
+
+				<!-- Toggler/collapsibe Button -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<!-- Navbar links -->
+				<div class="collapse navbar-collapse" id="collapsibleNavbar">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link plink" href="#!/popular">Read</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link plink" href="#!/">Write</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link plink" href="#!/about">About Us</a>
+						</li>
 					</ul>
-					<button id="smsg" type="button" class="btn btn-danger" style="margin-top: 8px;">
-						Message <span class="glyphicon glyphicon-remove"></span>
-					</button>
 				</div>
 			</nav>
 		</div>
 		<div class="container">
 			<div class="content" id="content">
-				<div id="post-info-section">
-					<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
-						<div v-bind:class="class_name"></div>
-					</div>
-					<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
-				</div>
-				<div id="edit-section">
+				<router-view></router-view>
+				<div id="edit-section" class="section">
 					<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
 					<textarea id="editor"></textarea>
 					<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
 				</div>
+				<div id="post-section" class="section">
+					<div id="post-info">
+						<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
+							<div v-bind:class="class_name"></div>
+						</div>
+						<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
+					</div>
+					<h1 id="post-title"></h1>
+					<article v-html="compiledMarkdown"></article>
+				</div>
+				<div id="popular-section" class="section">
+					sdd
+				</div>
 			</div>
 		</div>
 	</div>
+	<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="toast-body" id="smsg"></div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" async="async"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
+	<script src="https://unpkg.com/marked@0.3.6/lib/marked.js"></script>
+	<script src="https://unpkg.com/lodash@4.16.0/lodash.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
 	<script src="/static/js/main.js"></script>
 </body>
