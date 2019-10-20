@@ -6,6 +6,7 @@ var app,
 	encryped_content;
 
 let localtracker = "ws://172.16.31.113:3000"
+let peerUrl = "http://172.16.31.113:3001/peers"
 
 function get_info_hash_from_url() {
 	hash_value = window.location.hash;
@@ -88,7 +89,7 @@ function get_random_key() {
 	for (var i = 0; i < 15; i++)
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 	
-	return text;
+	return "aaabbbcccddd";
 }
 
 function show_smsg(msg, persistent) {
@@ -111,6 +112,15 @@ function show_editor(obj) {
 function show_popular() {
 	$('.section').hide();
 	$('#popular-section').show();
+	// $('#popular-section').html("testkhdsfkjhdsjk");
+	$.get(peerUrl, function(data){
+		htmldata = ''
+		let key = get_random_key();
+		Object.keys(data).forEach(function(d){
+			htmldata += '<a href=\"/#'+ d + key + '\">Peer count:'+ data[d]  + '</a><br>'
+		})
+		$('#popular-section').html(htmldata)
+	})
 }
 
 function show_about() {
