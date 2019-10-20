@@ -91,7 +91,6 @@ function get_random_key() {
 }
 
 function show_smsg(msg, persistent) {
-	console.log(msg);
 	$("#smsg").text(msg);
 	$(".toast").toast("show");
 }
@@ -184,7 +183,8 @@ app = new Vue({
 		post_document: function() {
 			var content = {
 				name: document.getElementById('blog-postname').value,
-				content: simplemde.value()
+				content: simplemde.value(),
+				time: new Date().toDateString()
 			};
 			var stringified_content = JSON.stringify(content);
 			var key = get_random_key();
