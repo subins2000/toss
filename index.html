@@ -17,20 +17,24 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+
 	<div id="navbar-toss">
-		<nav class="navbar navbar-inverse">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Toss</a>
-				</div>
-					<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#">
-						<button type="button" class="btn btn-success" id="smsg" style="display: none"></button>
-					</a></li>
-					</ul>
-				</div>
-		</nav>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Toss</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Popular</a></li>
+          <li><a href="#">About Us</a></li>
+          <li>     </li>
+        </ul>
+        <button type="button" class="btn btn-danger" style="margin-top: 8px;">
+          Message <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+    </nav>
 	</div>
 
 	<div id="post-info-section">
@@ -45,8 +49,9 @@
 				<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
 				<textarea id="editor"></textarea>
 			</div>
+      <button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
 		</div>
-		<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
+
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
