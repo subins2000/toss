@@ -17,34 +17,36 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div id="navbar-toss">
-		<nav class="navbar navbar-inverse">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">Toss</a>
+	<div id="app">
+		<div id="navbar-toss">
+			<nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">Toss</a>
+					</div>
+						<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">
+							<button type="button" class="btn btn-success" id="smsg" style="display: none"></button>
+						</a></li>
+						</ul>
+					</div>
+			</nav>
+		</div>
+		<div class="container">
+			<div class="content" id="content">
+				<div id="post-info-section">
+					<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
+						<div v-bind:class="class_name"></div>
+					</div>
+					<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
 				</div>
-					<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#">
-						<button type="button" class="btn btn-success" id="smsg" style="display: none"></button>
-					</a></li>
-					</ul>
+				<div id="edit-section">
+					<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
+					<textarea id="editor"></textarea>
 				</div>
-		</nav>
-	</div>
-	<div class="container">
-		<div class="content" id="content">
-			<div id="post-info-section">
-				<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
-					<div v-bind:class="class_name"></div>
-				</div>
-				<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
+				<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
 			</div>
-			<div id="edit-section">
-				<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
-				<textarea id="editor"></textarea>
-			</div>
-			<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>

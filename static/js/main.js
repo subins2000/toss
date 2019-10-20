@@ -51,7 +51,7 @@ function get_local_encrypted_content() {
 
 function peer_info_updater(torrent) {
 	var interval = setInterval(function () {
-		post_info.num_peers = torrent.numPeers;
+		app.num_peers = torrent.numPeers;
 	}, 4000)
 };
 
@@ -99,8 +99,8 @@ function show_smsg(msg, persistent) {
 	}
 }
 
-var post_info = new Vue({
-	el: "#content",
+var app = new Vue({
+	el: "#app",
 	data: {
 		show_post_button: true,
 		class_name: "",
@@ -126,13 +126,13 @@ var post_info = new Vue({
 			})
 		},
 		toogle_heart: function() {
-			if (post_info.class_name === "fas fa-heart") {
-				post_info.class_name = "far fa-heart";
-				update_heart(post_info.class_name);
+			if (app.class_name === "fas fa-heart") {
+				app.class_name = "far fa-heart";
+				update_heart(app.class_name);
 				remove_doc();
 			} else {
-				post_info.class_name = "fas fa-heart";
-				update_heart(post_info.class_name);
+				app.class_name = "fas fa-heart";
+				update_heart(app.class_name);
 				save_doc();
 			}
 		}
@@ -161,12 +161,12 @@ var post_info = new Vue({
 				var object = JSON.parse(local_content);
 				show_smsg("Loading from local storage.......");
 				simplemde.value(object);
-				post_info.class_name = "fas fa-heart";
+				app.class_name = "fas fa-heart";
 				// show content
 	
 				var encrypted_string = get_local_encrypted_content();
 				var f = new File([encrypted_string], file_name);
-				post_info.show_post_button = false;
+				app.show_post_button = false;
 				client.seed(f, function (torrent) {
 					peer_info_updater(torrent);
 				});
@@ -174,8 +174,8 @@ var post_info = new Vue({
 				var json_file;
 				if (magnet_link) {
 					show_smsg("Loading from peers.......");
-					post_info.class_name = "far fa-heart";
-					post_info.show_post_button = false;
+					app.class_name = "far fa-heart";
+					app.show_post_button = false;
 					client.add(magnet_link, function (torrent) {
 						torrent.files.forEach(function (file) {
 							var reader = new FileReader();
@@ -191,7 +191,7 @@ var post_info = new Vue({
 							});
 	
 							var interval = setInterval(function () {
-								post_info.num_peers = torrent.numPeers;
+								app.num_peers = torrent.numPeers;
 							}, 2000)
 						})
 					});
