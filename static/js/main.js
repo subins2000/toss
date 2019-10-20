@@ -53,7 +53,7 @@ function get_local_encrypted_content() {
 
 function peer_info_updater(torrent) {
 	var interval = setInterval(function () {
-		post_info.num_peers = torrent.numPeers;
+		app.num_peers = torrent.numPeers;
 	}, 4000)
 };
 
@@ -89,17 +89,20 @@ function get_random_key() {
 	return text;
 }
 
-function show_smsg(msg) {
+function show_smsg(msg, persistent) {
 	var elem = document.getElementById('smsg');
 	elem.innerHTML = msg;
 	elem.style.display = 'block';
-	setTimeout(function() {
-		elem.style.display = 'none';
-	});
+
+	if (typeof persistent) {
+		setTimeout(function() {
+			elem.style.display = 'none';
+		}, 3000);
+	}
 }
 
-var post_info = new Vue({
-	el: "#post-info-section",
+var app = new Vue({
+	el: "#app",
 	data: {
 		show_post_button: true,
 		class_name: "",
@@ -114,6 +117,7 @@ var post_info = new Vue({
 			var stringified_content = JSON.stringify(content);
 			var key = get_random_key();
 			var encrypted_string =  CryptoJS.AES.encrypt(stringified_content, key);
+
 			var f = new File([encrypted_string], file_name);
 			client.seed(f, {
 				announce: [localtracker]
@@ -123,29 +127,21 @@ var post_info = new Vue({
 				window.location.hash = url;
 				encryped_content = encrypted_string;
 				save_doc();
-				post_info.show_post_button = false;
-				post_info.class_name = "fas fa-heart";
-				update_heart(post_info.class_name);
-				quill.enable(false);
 				peer_info_updater(torrent);
 			})
 		},
 		toogle_heart: function() {
-			if (post_info.class_name === "fas fa-heart") {
-				post_info.class_name = "far fa-heart";
-				update_heart(post_info.class_name);
+			if (app.class_name === "fas fa-heart") {
+				app.class_name = "far fa-heart";
+				update_heart(app.class_name);
 				remove_doc();
 			} else {
-				post_info.class_name = "fas fa-heart";
-				update_heart(post_info.class_name);
+				app.class_name = "fas fa-heart";
+				update_heart(app.class_name);
 				save_doc();
 			}
 		}
 	},
-});
-
-var editor = new Vue({
-	el: "#editor",
 	mounted() {
 		main = function(ice_servers) {
 			var rtcConfig = {
@@ -170,12 +166,13 @@ var editor = new Vue({
 				var object = JSON.parse(local_content);
 				show_smsg("Loading from local storage.......");
 				simplemde.value(object);
-				post_info.class_name = "fas fa-heart";
+				app.class_name = "fas fa-heart";
 				// show content
 	
 				var encrypted_string = get_local_encrypted_content();
 				var f = new File([encrypted_string], file_name);
-				post_info.show_post_button = false;
+
+				app.show_post_button = false;
 				client.seed(f, {
 					announce: [localtracker]
 				}, function (torrent) {
@@ -185,8 +182,8 @@ var editor = new Vue({
 				var json_file;
 				if (magnet_link) {
 					show_smsg("Loading from peers.......");
-					post_info.class_name = "far fa-heart";
-					post_info.show_post_button = false;
+					app.class_name = "far fa-heart";
+					app.show_post_button = false;
 					client.add(magnet_link, function (torrent) {
 						torrent.files.forEach(function (file) {
 							var reader = new FileReader();
@@ -202,7 +199,7 @@ var editor = new Vue({
 							});
 	
 							var interval = setInterval(function () {
-								post_info.num_peers = torrent.numPeers;
+								app.num_peers = torrent.numPeers;
 							}, 2000)
 						})
 					});
