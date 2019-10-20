@@ -32,20 +32,19 @@
 				</div>
 		</nav>
 	</div>
-
-	<div id="post-info-section">
-			<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
-				<div v-bind:class="class_name"></div>
-			</div>
-			<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="btn btn-primary">PUBLISH</button>
-		<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
-	</div>
 	<div class="container">
-		<div class="content">
+		<div class="content" id="content">
+			<div id="post-info-section">
+				<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
+					<div v-bind:class="class_name"></div>
+				</div>
+				<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
+			</div>
 			<div id="edit-section">
 				<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
 				<textarea id="editor"></textarea>
 			</div>
+			<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js"></script>

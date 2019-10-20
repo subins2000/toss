@@ -87,17 +87,20 @@ function get_random_key() {
 	return text;
 }
 
-function show_smsg(msg) {
+function show_smsg(msg, persistent) {
 	var elem = document.getElementById('smsg');
 	elem.innerHTML = msg;
 	elem.style.display = 'block';
-	setTimeout(function() {
-		elem.style.display = 'none';
-	});
+
+	if (typeof persistent) {
+		setTimeout(function() {
+			elem.style.display = 'none';
+		}, 3000);
+	}
 }
 
 var post_info = new Vue({
-	el: "#post-info-section",
+	el: "#content",
 	data: {
 		show_post_button: true,
 		class_name: "",
@@ -112,17 +115,13 @@ var post_info = new Vue({
 			var stringified_content = JSON.stringify(content);
 			var key = get_random_key();
 			var encrypted_string =  CryptoJS.AES.encrypt(stringified_content, key);
-			var f = new File([encrypted_string], file_name);
+			var f = new File([encrypted_string], 'a');
 			client.seed(f, function (torrent) {
 				const new_info_hash = torrent.infoHash;
 				var url = new_info_hash + key;
 				window.location.hash = url;
 				encryped_content = encrypted_string;
 				save_doc();
-				post_info.show_post_button = false;
-				post_info.class_name = "fas fa-heart";
-				update_heart(post_info.class_name);
-				quill.enable(false);
 				peer_info_updater(torrent);
 			})
 		},
@@ -138,10 +137,6 @@ var post_info = new Vue({
 			}
 		}
 	},
-});
-
-var editor = new Vue({
-	el: "#editor",
 	mounted() {
 		main = function(ice_servers) {
 			var rtcConfig = {
