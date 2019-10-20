@@ -14,41 +14,40 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-
-	<div id="navbar-toss">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Toss</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">Popular</a></li>
-          <li><a href="#">About Us</a></li>
-          <li>     </li>
-        </ul>
-        <button id="smsg" type="button" class="btn btn-danger" style="margin-top: 8px;">
-          Message <span class="glyphicon glyphicon-remove"></span>
-        </button>
-      </div>
-    </nav>
-	</div>
-
-	<div id="post-info-section">
-			<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
-				<div v-bind:class="class_name"></div>
-			</div>
-		<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
-	</div>
-	<div class="container">
-		<div class="content">
-			<div id="edit-section">
-				<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
-				<textarea id="editor"></textarea>
-			</div>
-      <button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
+	<div id="app">
+		<div id="navbar-toss">
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="#">Toss</a>
+					</div>
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Home</a></li>
+						<li><a href="#">Popular</a></li>
+						<li><a href="#">About Us</a></li>
+						<li></li>
+					</ul>
+					<button id="smsg" type="button" class="btn btn-danger" style="margin-top: 8px;">
+						Message <span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</div>
+			</nav>
 		</div>
-
+		<div class="container">
+			<div class="content" id="content">
+				<div id="post-info-section">
+					<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
+						<div v-bind:class="class_name"></div>
+					</div>
+					<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
+				</div>
+				<div id="edit-section">
+					<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
+					<textarea id="editor"></textarea>
+					<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" async="async"></script>
