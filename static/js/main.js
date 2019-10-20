@@ -99,7 +99,8 @@ function show_smsg(msg, persistent) {
 function show_post(obj) {
 	$('.section').hide();
 	$('#post-section').show().find("article").html(marked(obj.content));
-	$('#post-title').html(obj.title);
+	$('#post-title').html(obj.name);
+	$('#post-time').html(obj.time);
 }
 
 function show_editor(obj) {
@@ -141,8 +142,6 @@ function router() {
 			var json_file;
 			if (magnet_link) {
 				show_smsg("Loading from peers.......");
-				app.class_name = "far fa-heart";
-				app.show_post_button = false;
 				client.add(magnet_link, function (torrent) {
 					torrent.files.forEach(function (file) {
 						var reader = new FileReader();
@@ -158,7 +157,7 @@ function router() {
 						});
 
 						var interval = setInterval(function () {
-							app.num_peers = torrent.numPeers;
+							$('#peer-count').text(torrent.numPeers);
 						}, 2000)
 					})
 				});

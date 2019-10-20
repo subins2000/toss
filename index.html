@@ -40,7 +40,6 @@
 		</div>
 		<div class="container">
 			<div class="content" id="content">
-				<router-view></router-view>
 				<div id="edit-section" class="section">
 					<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
 					<textarea id="editor"></textarea>
@@ -48,12 +47,12 @@
 				</div>
 				<div id="post-section" class="section">
 					<div id="post-info">
-						<div title="Hearted posts would be stored in browser and can be viewed even if no one else is sharing them" id="heart-parent" v-on:click="toogle_heart">
-							<div v-bind:class="class_name"></div>
+						<h1 id="post-title"></h1>
+						<div id="peer-info">
+							<span id="peer-count">{{num_peers}}</span>&nbsp;peers
+							<span id="post-time"></span>
 						</div>
-						<div v-else id="peer-info">{{num_peers}} <i class="fas fa-users"></i></div>
 					</div>
-					<h1 id="post-title"></h1>
 					<article v-html="compiledMarkdown"></article>
 				</div>
 				<div id="popular-section" class="section">
