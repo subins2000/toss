@@ -6,7 +6,7 @@ var app,
 	encryped_content;
 
 let localtracker = "ws://toss.rebuildearth.org"
-let peerUrl = "http://toss2.rebuildearth.org"
+let peerUrl = "http://toss2.rebuildearth.org/peers"
 
 function get_info_hash_from_url() {
 	hash_value = window.location.hash;
