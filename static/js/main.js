@@ -25,6 +25,7 @@ function update_magnet_link() {
 	if (info_hash) {
 		var template_magnet_link = "magnet:?xt=urn:btih:{{INFO_HASH}}&dn=inetd.c&tr=udp%3A%2F%2Fexodus.desync.com%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=ws%3A%2F%2Ftoss.rebuildearth.org";
 		magnet_link = template_magnet_link.replace("{{INFO_HASH}}", info_hash)
+	}
 }
 
 function is_published() {
