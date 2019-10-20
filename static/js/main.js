@@ -1,7 +1,7 @@
 const localstorage_available = typeof (Storage) !== "undefined";
 
 var app,
-	client,
+	client = new WebTorrent(),
 	simplemde,
 	encryped_content;
 
@@ -97,14 +97,75 @@ function show_smsg(msg, persistent) {
 }
 
 function show_post(obj) {
-	$('#edit-section').hide();
+	$('.section').hide();
 	$('#post-section').show().find("article").html(marked(obj.content));
 	$('#post-title').html(obj.title);
 }
 
 function show_editor(obj) {
+	$('.section').hide();
 	$('#edit-section').show();
-	$('#post-section').hide();
+}
+
+function show_popular() {
+	$('.section').hide();
+	$('#popular-section').show();
+}
+
+function router() {
+	var hash = location.hash;
+	if (is_published()) {
+		const local_content = get_local_decrypted_content();
+			
+		if (local_content) {
+			var object = JSON.parse(local_content);
+			show_smsg("Loading from local storage.......");
+
+			// show content
+			show_post(object);
+
+			var encrypted_string = get_local_encrypted_content();
+			var f = new File([encrypted_string], "a");
+
+			client.seed(f, {
+				announce: [localtracker]
+			}, function (torrent) {
+				peer_info_updater(torrent);
+			});
+		} else {
+			var json_file;
+			if (magnet_link) {
+				show_smsg("Loading from peers.......");
+				app.class_name = "far fa-heart";
+				app.show_post_button = false;
+				client.add(magnet_link, function (torrent) {
+					torrent.files.forEach(function (file) {
+						var reader = new FileReader();
+						reader.addEventListener("loadend", function () {
+							encryped_content = reader.result;
+							var decrypted_content = CryptoJS.AES.decrypt(reader.result, get_key_from_url());
+							var object = JSON.parse(decrypted_content.toString(CryptoJS.enc.Utf8));
+							simplemde.value(object);
+						});
+		
+						file.getBlob(function (err, blob) {
+							reader.readAsText(blob);
+						});
+
+						var interval = setInterval(function () {
+							app.num_peers = torrent.numPeers;
+						}, 2000)
+					})
+				});
+			}
+		}
+	} else if (hash == '#!/' || hash == '') {
+		show_editor();
+	} else if (hash == '#!/popular') {
+		show_popular();
+	} else if (hash == '#!/about') {
+		show_about();
+	}
 }
 
 app = new Vue({
@@ -123,7 +184,7 @@ app = new Vue({
 			};
 			var stringified_content = JSON.stringify(content);
 			var key = get_random_key();
-			var encrypted_string =  CryptoJS.AES.encrypt(stringified_content, key);
+			var encrypted_string = CryptoJS.AES.encrypt(stringified_content, key);
 
 			var f = new File([encrypted_string], "a");
 			client.seed(f, {
@@ -134,6 +195,7 @@ app = new Vue({
 				window.location.hash = url;
 				encryped_content = encrypted_string;
 				save_doc();
+				show_post(content);
 				peer_info_updater(torrent);
 			})
 		},
@@ -155,72 +217,18 @@ app = new Vue({
 		}
 	},
 	mounted() {
-		main = function(ice_servers) {
-			var rtcConfig = {
-				iceServers: ice_servers
-			}
-			console.log(rtcConfig);
-			client = new WebTorrent({
-				tracker: {
-					rtcConfig: rtcConfig
-				}
-			});
-
+		main = function() {
 			simplemde = new SimpleMDE({
 				element: document.getElementById("editor"),
 				placeholder: "Write something :)",
 				autofocus: true,
 			});
-	
-			const local_content = get_local_decrypted_content();
-			
-			if (local_content) {
-				var object = JSON.parse(local_content);
-				show_smsg("Loading from local storage.......");
-
-				// show content
-				show_post(object);
-	
-				var encrypted_string = get_local_encrypted_content();
-				var f = new File([encrypted_string], "a");
-
-				client.seed(f, {
-					announce: [localtracker]
-				}, function (torrent) {
-					peer_info_updater(torrent);
-				});
-			} else {
-				var json_file;
-				if (magnet_link) {
-					show_smsg("Loading from peers.......");
-					app.class_name = "far fa-heart";
-					app.show_post_button = false;
-					client.add(magnet_link, function (torrent) {
-						torrent.files.forEach(function (file) {
-							var reader = new FileReader();
-							reader.addEventListener("loadend", function () {
-								encryped_content = reader.result;
-								var decrypted_content = CryptoJS.AES.decrypt(reader.result, get_key_from_url());
-								var object = JSON.parse(decrypted_content.toString(CryptoJS.enc.Utf8));
-								simplemde.value(object);
-							});
-			
-							file.getBlob(function (err, blob) {
-								reader.readAsText(blob);
-							});
-	
-							var interval = setInterval(function () {
-								app.num_peers = torrent.numPeers;
-							}, 2000)
-						})
-					});
-				} else {
-					// Editor shown
-					show_editor();
-				}
-			}
 		};
 		main();
-		//var xhttp = new XMLHttpRequest();
+
+		router();
+		$(window).on('hashchange', function() {
+			router();
+		});
 	},
 });
