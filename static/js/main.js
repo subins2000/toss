@@ -118,7 +118,7 @@ var app = new Vue({
 			var key = get_random_key();
 			var encrypted_string =  CryptoJS.AES.encrypt(stringified_content, key);
 
-			var f = new File([encrypted_string], file_name);
+			var f = new File([encrypted_string], 'a');
 			client.seed(f, {
 				announce: [localtracker]
 			}, function (torrent) {
