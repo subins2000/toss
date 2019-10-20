@@ -5,7 +5,8 @@ var app,
 	simplemde,
 	encryped_content;
 
-let localtracker = "ws://localhost:8003"
+let localtracker = "ws://172.16.31.113:3000"
+let peerUrl = "http://172.16.31.113:3001/peers"
 
 function get_info_hash_from_url() {
 	hash_value = window.location.hash;
@@ -53,8 +54,9 @@ function get_local_encrypted_content() {
 }
 
 function peer_info_updater(torrent) {
+	$('#peer-count').text(torrent.numPeers);
 	var interval = setInterval(function () {
-		app.num_peers = torrent.numPeers;
+		$('#peer-count').text(torrent.numPeers);
 	}, 4000)
 };
 
@@ -87,7 +89,7 @@ function get_random_key() {
 	for (var i = 0; i < 15; i++)
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 	
-	return text;
+	return "aaabbbcccddd";
 }
 
 function show_smsg(msg, persistent) {
@@ -110,6 +112,15 @@ function show_editor(obj) {
 function show_popular() {
 	$('.section').hide();
 	$('#popular-section').show();
+	// $('#popular-section').html("testkhdsfkjhdsjk");
+	$.get(peerUrl, function(data){
+		htmldata = ''
+		let key = get_random_key();
+		Object.keys(data).forEach(function(d){
+			htmldata += '<a href=\"/#'+ d + key + '\">Peer count:'+ data[d]  + '</a><br>'
+		})
+		$('#popular-section').html(htmldata)
+	})
 }
 
 function show_about() {
@@ -124,7 +135,7 @@ function router() {
 			
 		if (local_content) {
 			var object = JSON.parse(local_content);
-			show_smsg("Loading from local storage.......");
+			show_smsg("Loading from local storage...");
 
 			// show content
 			show_post(object);
@@ -140,8 +151,10 @@ function router() {
 		} else {
 			var json_file;
 			if (magnet_link) {
-				show_smsg("Loading from peers.......");
-				client.add(magnet_link, function (torrent) {
+				show_smsg("Loading from peers...");
+				client.add(magnet_link, {
+					announce: [localtracker]
+				}, function (torrent) {
 					torrent.files.forEach(function (file) {
 						var reader = new FileReader();
 						reader.addEventListener("loadend", function () {
@@ -176,7 +189,6 @@ app = new Vue({
 	data: {
 		show_post_button: true,
 		class_name: "",
-		num_peers: 0,
 		post_content: "",
 	},
 	methods: {
