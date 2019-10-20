@@ -5,7 +5,7 @@ var app,
 	simplemde,
 	encryped_content;
 
-let localtracker = "ws://localhost:8003"
+let localtracker = "ws://172.16.31.113:3000"
 
 function get_info_hash_from_url() {
 	hash_value = window.location.hash;
@@ -53,8 +53,9 @@ function get_local_encrypted_content() {
 }
 
 function peer_info_updater(torrent) {
+	$('#peer-count').text(torrent.numPeers);
 	var interval = setInterval(function () {
-		app.num_peers = torrent.numPeers;
+		$('#peer-count').text(torrent.numPeers);
 	}, 4000)
 };
 
@@ -141,7 +142,9 @@ function router() {
 			var json_file;
 			if (magnet_link) {
 				show_smsg("Loading from peers...");
-				client.add(magnet_link, function (torrent) {
+				client.add(magnet_link, {
+					announce: [localtracker]
+				}, function (torrent) {
 					torrent.files.forEach(function (file) {
 						var reader = new FileReader();
 						reader.addEventListener("loadend", function () {
@@ -176,7 +179,6 @@ app = new Vue({
 	data: {
 		show_post_button: true,
 		class_name: "",
-		num_peers: 0,
 		post_content: "",
 	},
 	methods: {
