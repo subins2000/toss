@@ -38,7 +38,11 @@ body {
     margin-bottom: 20px;
 }
 
-#peer-info {
+#post-extra-info {
+    margin-top: 40px;
+}
+
+#post-time {
     margin-left: 20px;
 }
 
