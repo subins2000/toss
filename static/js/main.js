@@ -5,8 +5,8 @@ var app,
 	simplemde,
 	encryped_content;
 
-let localtracker = "ws://172.16.31.113:3000"
-let peerUrl = "http://172.16.31.113:3001/peers"
+let localtracker = "ws://toss.rebuildearth.org"
+let peerUrl = "http://toss2.rebuildearth.org"
 
 function get_info_hash_from_url() {
 	hash_value = window.location.hash;
