@@ -18,11 +18,14 @@ function get_key_from_url() {
 	return hash_value.slice(41);
 }
 
-const info_hash = get_info_hash_from_url();
 var magnet_link;
-if (info_hash) {
-	var template_magnet_link = "magnet:?xt=urn:btih:{{INFO_HASH}}&dn=inetd.c&tr=udp%3A%2F%2Fexodus.desync.com%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com";
-	magnet_link = template_magnet_link.replace("{{INFO_HASH}}", info_hash)
+
+function update_magnet_link() {
+	info_hash = get_info_hash_from_url();
+	if (info_hash) {
+		var template_magnet_link = "magnet:?xt=urn:btih:{{INFO_HASH}}&dn=inetd.c&tr=udp%3A%2F%2Fexodus.desync.com%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=wss%3A%2F%2Ftracker.btorrent.xyz&tr=wss%3A%2F%2Ftracker.fastcast.nz&tr=wss%3A%2F%2Ftracker.openwebtorrent.com";
+		magnet_link = template_magnet_link.replace("{{INFO_HASH}}", info_hash)
+	}
 }
 
 function is_published() {
@@ -242,8 +245,11 @@ app = new Vue({
 		};
 		main();
 
+		update_magnet_link();
 		router();
+
 		$(window).on('hashchange', function() {
+			update_magnet_link();
 			router();
 		});
 	},
