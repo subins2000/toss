@@ -120,7 +120,7 @@ function show_popular() {
 		htmldata = ''
 		let key = get_random_key();
 		Object.keys(data).forEach(function(d){
-			htmldata += '<a href=\"/#'+ d + key + '\">Peer count:'+ data[d]  + '</a><br>'
+			htmldata += '<a href=\"/toss/#'+ d + key + '\">Peer count:'+ data[d]  + '</a><br>'
 		})
 		$('#popular-section').html(htmldata)
 	})
