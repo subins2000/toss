@@ -4,6 +4,8 @@ var client,
 	simplemde,
 	encryped_content;
 
+let localtracker = "ws://localhost:8003"
+
 function get_info_hash_from_url() {
 	hash_value = window.location.hash;
 	return hash_value.slice(1, 41);
@@ -113,7 +115,9 @@ var post_info = new Vue({
 			var key = get_random_key();
 			var encrypted_string =  CryptoJS.AES.encrypt(stringified_content, key);
 			var f = new File([encrypted_string], file_name);
-			client.seed(f, function (torrent) {
+			client.seed(f, {
+				announce: [localtracker]
+			}, function (torrent) {
 				const new_info_hash = torrent.infoHash;
 				var url = new_info_hash + key;
 				window.location.hash = url;
@@ -172,7 +176,9 @@ var editor = new Vue({
 				var encrypted_string = get_local_encrypted_content();
 				var f = new File([encrypted_string], file_name);
 				post_info.show_post_button = false;
-				client.seed(f, function (torrent) {
+				client.seed(f, {
+					announce: [localtracker]
+				}, function (torrent) {
 					peer_info_updater(torrent);
 				});
 			} else {
