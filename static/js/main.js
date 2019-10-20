@@ -99,7 +99,8 @@ function show_smsg(msg, persistent) {
 function show_post(obj) {
 	$('.section').hide();
 	$('#post-section').show().find("article").html(marked(obj.content));
-	$('#post-title').html(obj.title);
+	$('#post-title').html(obj.name);
+	$('#post-time').html(obj.time);
 }
 
 function show_editor(obj) {
@@ -110,6 +111,11 @@ function show_editor(obj) {
 function show_popular() {
 	$('.section').hide();
 	$('#popular-section').show();
+}
+
+function show_about() {
+	$('.section').hide();
+	$('#about-section').show();
 }
 
 function router() {
@@ -136,8 +142,6 @@ function router() {
 			var json_file;
 			if (magnet_link) {
 				show_smsg("Loading from peers.......");
-				app.class_name = "far fa-heart";
-				app.show_post_button = false;
 				client.add(magnet_link, function (torrent) {
 					torrent.files.forEach(function (file) {
 						var reader = new FileReader();
@@ -145,7 +149,7 @@ function router() {
 							encryped_content = reader.result;
 							var decrypted_content = CryptoJS.AES.decrypt(reader.result, get_key_from_url());
 							var object = JSON.parse(decrypted_content.toString(CryptoJS.enc.Utf8));
-							simplemde.value(object);
+							show_post(object);
 						});
 		
 						file.getBlob(function (err, blob) {
@@ -153,7 +157,7 @@ function router() {
 						});
 
 						var interval = setInterval(function () {
-							app.num_peers = torrent.numPeers;
+							$('#peer-count').text(torrent.numPeers);
 						}, 2000)
 					})
 				});
