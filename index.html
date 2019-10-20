@@ -16,18 +16,21 @@
 <body>
 	<div id="app">
 		<div id="navbar-toss">
-			<nav class="navbar navbar-inverse">
+			<nav class="navbar navbar-inverse navbar-fixed-top">
 				<div class="container-fluid">
 					<div class="navbar-header">
 						<a class="navbar-brand" href="#">Toss</a>
 					</div>
-						<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">
-							<button type="button" class="btn btn-success" id="smsg" style="display: none"></button>
-						</a></li>
-						</ul>
-					</div>
+						<li><a href="#">Popular</a></li>
+						<li><a href="#">About Us</a></li>
+						<li></li>
+					</ul>
+					<button id="smsg" type="button" class="btn btn-danger" style="margin-top: 8px;">
+						Message <span class="glyphicon glyphicon-remove"></span>
+					</button>
+				</div>
 			</nav>
 		</div>
 		<div class="container">
