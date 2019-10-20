@@ -112,6 +112,11 @@ function show_popular() {
 	$('#popular-section').show();
 }
 
+function show_about() {
+	$('.section').hide();
+	$('#about-section').show();
+}
+
 function router() {
 	var hash = location.hash;
 	if (is_published()) {
@@ -145,7 +150,7 @@ function router() {
 							encryped_content = reader.result;
 							var decrypted_content = CryptoJS.AES.decrypt(reader.result, get_key_from_url());
 							var object = JSON.parse(decrypted_content.toString(CryptoJS.enc.Utf8));
-							simplemde.value(object);
+							show_post(object);
 						});
 		
 						file.getBlob(function (err, blob) {

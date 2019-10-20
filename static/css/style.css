@@ -15,7 +15,7 @@ body {
     padding-top: 40px;
 }
 
-#edit-section, #post-section {
+.section {
     display: none;
 }
 
