@@ -7,17 +7,24 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 		<link href="/static/css/style.css" rel="stylesheet">
 
+		<link rel="icon" href="res/2.png">
+
 		<!-- Bootstrap -->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-		<script src=""></script>
+		<link rel="stylesheet" href="static/css/navbar.css" />
 </head>
 <body>
 	<div id="app">
 		<div id="navbar-toss">
 			<nav class="navbar navbar-expand-md bg-dark navbar-dark">
 				<!-- Brand -->
-				<a class="navbar-brand" href="/">Toss</a>
+				<a class="navbar-brand" href="/">
+					<span>
+						<img src="res/2.png" width="32px" height="32px">
+					</span>
+					Toss
+				</a>
 
 				<!-- Toggler/collapsibe Button -->
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -43,7 +50,7 @@
 		<div class="container">
 			<div class="content" id="content">
 				<div id="edit-section" class="section">
-					<input type="text" id="blog-postname" class="form-control" placeholder="Title" /><br/>
+					<input type="text" id="blog-postname" class="form-control form-title" placeholder="Title" /><br/>
 					<textarea id="editor"></textarea>
 					<button v-if="show_post_button" id="post-public-button" v-on:click="post_document" type="button" class="block">PUBLISH</button>
 				</div>

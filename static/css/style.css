@@ -21,7 +21,7 @@ body {
 
 #post-public-button {
     cursor: pointer;
-    z-index: 900;    
+    z-index: 900;
     position: relative;
     float: right;
 }
