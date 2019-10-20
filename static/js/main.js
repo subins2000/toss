@@ -1,6 +1,7 @@
 const localstorage_available = typeof (Storage) !== "undefined";
 
-var client,
+var app,
+	client,
 	simplemde,
 	encryped_content;
 
@@ -90,23 +91,29 @@ function get_random_key() {
 }
 
 function show_smsg(msg, persistent) {
-	var elem = document.getElementById('smsg');
-	elem.innerHTML = msg;
-	elem.style.display = 'block';
-
-	if (typeof persistent) {
-		setTimeout(function() {
-			elem.style.display = 'none';
-		}, 3000);
-	}
+	console.log(msg);
+	$("#smsg").text(msg);
+	$(".toast").toast("show");
 }
 
-var app = new Vue({
+function show_post(obj) {
+	$('#edit-section').hide();
+	$('#post-section').show().find("article").html(marked(obj.content));
+	$('#post-title').html(obj.title);
+}
+
+function show_editor(obj) {
+	$('#edit-section').show();
+	$('#post-section').hide();
+}
+
+app = new Vue({
 	el: "#app",
 	data: {
 		show_post_button: true,
 		class_name: "",
 		num_peers: 0,
+		post_content: "",
 	},
 	methods: {
 		post_document: function() {
@@ -118,7 +125,7 @@ var app = new Vue({
 			var key = get_random_key();
 			var encrypted_string =  CryptoJS.AES.encrypt(stringified_content, key);
 
-			var f = new File([encrypted_string], 'a');
+			var f = new File([encrypted_string], "a");
 			client.seed(f, {
 				announce: [localtracker]
 			}, function (torrent) {
@@ -140,6 +147,11 @@ var app = new Vue({
 				update_heart(app.class_name);
 				save_doc();
 			}
+		}
+	},
+	computed: {
+		compiledMarkdown: function (content) {
+			return marked(this.post_content, { sanitize: true })
 		}
 	},
 	mounted() {
@@ -165,14 +177,13 @@ var app = new Vue({
 			if (local_content) {
 				var object = JSON.parse(local_content);
 				show_smsg("Loading from local storage.......");
-				simplemde.value(object);
-				app.class_name = "fas fa-heart";
+
 				// show content
+				show_post(object);
 	
 				var encrypted_string = get_local_encrypted_content();
-				var f = new File([encrypted_string], file_name);
+				var f = new File([encrypted_string], "a");
 
-				app.show_post_button = false;
 				client.seed(f, {
 					announce: [localtracker]
 				}, function (torrent) {
@@ -205,6 +216,7 @@ var app = new Vue({
 					});
 				} else {
 					// Editor shown
+					show_editor();
 				}
 			}
 		};

@@ -14,6 +14,10 @@ body {
     margin-right: auto;
 }
 
+#edit-section, #post-section {
+    display: none;
+}
+
 #post-public-button {
     cursor: pointer;
     z-index: 900;    
@@ -43,10 +47,6 @@ a {
     color: #333;
 }
 
-#smsg {
-    display: none;
-}
-
 .block {
 	display: block;
 	width: 100%;
@@ -63,4 +63,10 @@ a {
 .block:hover {
 	background-color: black;
 	color: white;
+}
+
+.toast {
+    position: absolute;
+    top: 100px;
+    right: 100px;
 }
