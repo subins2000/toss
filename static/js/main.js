@@ -124,7 +124,7 @@ function router() {
 			
 		if (local_content) {
 			var object = JSON.parse(local_content);
-			show_smsg("Loading from local storage.......");
+			show_smsg("Loading from local storage...");
 
 			// show content
 			show_post(object);
@@ -140,7 +140,7 @@ function router() {
 		} else {
 			var json_file;
 			if (magnet_link) {
-				show_smsg("Loading from peers.......");
+				show_smsg("Loading from peers...");
 				client.add(magnet_link, function (torrent) {
 					torrent.files.forEach(function (file) {
 						var reader = new FileReader();
